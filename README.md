@@ -3,11 +3,11 @@ Radio PSI's favorite nonsense factory is back!
 
 ## Getting set up:
 * clumsyrobot runs in Python 3 (and is incompatible with Python 2)
-* clumsyrobot requires (discord.py)[https://github.com/Rapptz/discord.py], a Discord API wrapper for Python 3.
+* clumsyrobot requires [discord.py](https://github.com/Rapptz/discord.py), a Discord API wrapper for Python 3.
     * You can use `pip install -U discord.py` to install it locally.
 * You will need to specify the Discord API bot token as an environment variable, `CLUMSYROBOT_DISCORD_TOKEN`.
     * (please don't hard-code it in the python script-- the internet doesn't need to see that)
-    * See (the developer portal on discord)[https://discordapp.com/developers/applications/] for more information on bots/tokens
+    * See [the developer portal on discord](https://discordapp.com/developers/applications/) for more information on bots/tokens
 * I've included a simple script to convert raw chat lines from an existing chat log into a serialized markov data file (using pickle)
     * Change the path strings in the script to the right filenames and run it!
         * `python generate_markov_pkl.py`

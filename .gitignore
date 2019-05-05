@@ -1,3 +1,4 @@
 *.pkl
 *.txt
+*.cfg
 __pycache__

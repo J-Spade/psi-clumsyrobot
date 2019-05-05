@@ -1,11 +1,10 @@
 # # # # #
 # clumsyrobot.py
-# v1.0.0 05/02/2019
+# v1.0.1 05/04/2019
 # # # # #
 
 from markov import Markov
 from random import random
-from os import environ
 import pickle
 try:
     import discord
@@ -14,13 +13,64 @@ except ImportError:
     exit()
 
 # # # # #
-# Constants
+# Config values
 # # # # #
 
-DISCORD_API_TOKEN         = environ.get('CLUMSYROBOT_DISCORD_TOKEN')
-MESSAGES_PER_AUTOSAVE     = 25
-RESPONSE_FREQUENCY        = 0.05
-MARKOV_DATA_SAVE_LOCATION = 'markov_data.pkl'
+# read the config file
+CONFIG_FILE_NAME = 'clumsyrobot.cfg'
+print('*** Loading config data from {}...'.format(CONFIG_FILE_NAME))
+try:
+    config_file = open(CONFIG_FILE_NAME, 'r')
+except IOError:
+    print('*** Could not load config file!')
+    exit()
+
+# parse the config data
+config = {}
+for line in config_file.readlines():
+    var, val = line.split('=')
+    config[var.strip()] = val.strip()
+config_file.close()
+
+# DISCORD_API_TOKEN: bot token used to authenticate with Discord API
+try:
+    DISCORD_API_TOKEN = str(config['DISCORD_API_TOKEN'])
+except ValueError:
+    print('*** No DISCORD_API_TOKEN value specified in config file! Cannot connect to Discord!')
+    exit()
+except TypeError:
+    print('*** DISCORD_API_TOKEN value in config file is malformed! Cannot connect to Discord!')
+    exit()
+
+# MESSAGES_PER_AUTOSAVE: messages received before backing up markov data
+try:
+    MESSAGES_PER_AUTOSAVE = int(config['MESSAGES_PER_AUTOSAVE'])
+except ValueError:
+    print('No MESSAGES_PER_AUTOSAVE value specified in config file. Using default.')
+    MESSAGES_PER_AUTOSAVE = 25
+except TypeError:
+    print('*** MESSAGES_PER_AUTOSAVE value in config file is malformed!')
+    exit()
+
+# RESPONSE_FREQUENCY: probability that clumsy will respond to any given message
+try:
+    RESPONSE_FREQUENCY = float(config['RESPONSE_FREQUENCY'])
+except ValueError:
+    print('No RESPONSE_FREQUENCY value specified in config file. Using default.')
+    RESPONSE_FREQUENCY = 0.05
+except TypeError:
+    print('*** RESPONSE_FREQUENCY value in config file is malformed!')
+    exit()
+
+# MARKOV_DATA_SAVE_LOCATION: path to the file where the serialized markov data is saved
+try:
+    MARKOV_DATA_SAVE_LOCATION = str(config['MARKOV_DATA_SAVE_LOCATION'])
+except ValueError:
+    print('No MARKOV_DATA_SAVE_LOCATION value specified in config file. Using default.')
+    MARKOV_DATA_SAVE_LOCATION = 'markov_data.pkl'
+except TypeError:
+    print('*** MARKOV_DATA_SAVE_LOCATION value in config file is malformed!')
+    exit()
 
 # # # # #
 # Discord client implementation
@@ -30,7 +80,7 @@ class ClumsyRobot(discord.Client):
 
     def __init__(self):
         # load the markov chain data
-        print('*** Loading {}...'.format(MARKOV_DATA_SAVE_LOCATION))
+        print('*** Loading markov data from {}...'.format(MARKOV_DATA_SAVE_LOCATION))
         try:
             with open(MARKOV_DATA_SAVE_LOCATION, 'rb') as markov_file:
                 self._markov = Markov(pickle.load(markov_file))
@@ -63,7 +113,7 @@ class ClumsyRobot(discord.Client):
         # save the markov data sometimes
         self._messages_since_last_autosave += 1
         if self._messages_since_last_autosave == MESSAGES_PER_AUTOSAVE:
-            print('*** Saving {}...'.format(MARKOV_DATA_SAVE_LOCATION))
+            print('*** Saving markov data to {}...'.format(MARKOV_DATA_SAVE_LOCATION))
             try:
                 with open(MARKOV_DATA_SAVE_LOCATION, 'wb') as markov_file:
                     pickle.dump(self._markov.GetData(), markov_file)

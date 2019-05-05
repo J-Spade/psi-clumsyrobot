@@ -12,7 +12,7 @@ Once everything is properly set up, all you need to do is run the clumsyrobot sc
     * `python clumsyrobot.py`
 
 ## Configuration:
-The following values are all configurable in `clumsyrobot.cfg`:
+The following values are all configurable in `clumsyrobot.cfg`. Each value should be on its own line, with `=` separating each name and its configured value. (e.g., `RESPONSE_FREQUENCY = 0.05`)
 * `DISCORD_API_TOKEN` (required)
     * The token the bot will use to authenticate with the Discord servers.
     * See [the developer portal on discord](https://discordapp.com/developers/applications/) for more information on bots/tokens.

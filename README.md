@@ -9,7 +9,7 @@ Radio PSI's favorite nonsense factory is back!
     * It is in this file where you will specify API tokens and values determining clumsy's behavior (see below).
 
 Once everything is properly set up, all you need to do is run the clumsyrobot script!
-    * `python clumsyrobot.py`
+* `python clumsyrobot.py`
 
 ## Configuration:
 The following values are all configurable in `clumsyrobot.cfg`. Each value should be on its own line, with `=` separating each name and its configured value. (e.g., `RESPONSE_FREQUENCY = 0.05`)

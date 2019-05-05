@@ -35,7 +35,7 @@ config_file.close()
 # DISCORD_API_TOKEN: bot token used to authenticate with Discord API
 try:
     DISCORD_API_TOKEN = str(config['DISCORD_API_TOKEN'])
-except ValueError:
+except KeyError:
     print('*** No DISCORD_API_TOKEN value specified in config file! Cannot connect to Discord!')
     exit()
 except TypeError:
@@ -45,7 +45,7 @@ except TypeError:
 # MESSAGES_PER_AUTOSAVE: messages received before backing up markov data
 try:
     MESSAGES_PER_AUTOSAVE = int(config['MESSAGES_PER_AUTOSAVE'])
-except ValueError:
+except KeyError:
     print('No MESSAGES_PER_AUTOSAVE value specified in config file. Using default.')
     MESSAGES_PER_AUTOSAVE = 25
 except TypeError:
@@ -55,7 +55,7 @@ except TypeError:
 # RESPONSE_FREQUENCY: probability that clumsy will respond to any given message
 try:
     RESPONSE_FREQUENCY = float(config['RESPONSE_FREQUENCY'])
-except ValueError:
+except KeyError:
     print('No RESPONSE_FREQUENCY value specified in config file. Using default.')
     RESPONSE_FREQUENCY = 0.05
 except TypeError:
@@ -65,7 +65,7 @@ except TypeError:
 # MARKOV_DATA_SAVE_LOCATION: path to the file where the serialized markov data is saved
 try:
     MARKOV_DATA_SAVE_LOCATION = str(config['MARKOV_DATA_SAVE_LOCATION'])
-except ValueError:
+except KeyError:
     print('No MARKOV_DATA_SAVE_LOCATION value specified in config file. Using default.')
     MARKOV_DATA_SAVE_LOCATION = 'markov_data.pkl'
 except TypeError:

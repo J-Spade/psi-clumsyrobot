@@ -27,7 +27,7 @@ for message in messages:
     message = message.strip().lower()
     markov.DigestInput(message)
     count += 1
-    print('\r... {} / {}'.format(count, len(messages)), end='')
+    print('\r... {} / {}'.format(count, num_msgs), end='')
 
 print('\nsaving pickle...')
 try:

@@ -1,6 +1,6 @@
 # # # # #
 # clumsyrobot.py
-# v1.0.1 05/04/2019
+# v1.1.1 05/11/2019
 # # # # #
 
 from markov import Markov
@@ -26,11 +26,15 @@ except IOError:
     exit()
 
 # parse the config data
-config = {}
-for line in config_file.readlines():
-    var, val = line.split('=')
-    config[var.strip()] = val.strip()
-config_file.close()
+try:
+    config = {}
+    for line in config_file.readlines():
+        var, val = line.split('=')
+        config[var.strip()] = val.strip()
+    config_file.close()
+except ValueError:
+    print('*** Malformed config file!')
+    exit()
 
 # DISCORD_API_TOKEN: bot token used to authenticate with Discord API
 try:
